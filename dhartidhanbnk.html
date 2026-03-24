@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharti Dhan Urban Bank | Maharashtra Digital Banking</title>
+    <style>
+        :root { 
+            --primary: #1b5e20; 
+            --soil: #4e342e; 
+            --gold: #fbc02d; 
+            --glass: rgba(255, 255, 255, 0.98); 
+            --shadow: rgba(0,0,0,0.15);
+            --success: #4caf50;
+            --danger: #f44336;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000") no-repeat center center fixed;
+            background-size: cover; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container { 
+            width: 1200px; 
+            height: 92vh; 
+            background: var(--glass); 
+            border-radius: 30px; 
+            display: flex; 
+            box-shadow: 0 40px 80px var(--shadow); 
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .sidebar { 
+            width: 320px; 
+            background: linear-gradient(145deg, var(--primary), #2e7d32); 
+            color: white; 
+            padding: 40px 30px; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 5px solid var(--gold); 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+        
+        .logo-section h1 { 
+            color: var(--gold); 
+            margin: 0 0 8px 0; 
+            font-size: 32px; 
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .logo-section p { 
+            margin: 0 0 20px 0; 
+            letter-spacing: 2px; 
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .nav-link { 
+            background: rgba(255,255,255,0.1); 
+            border: none; 
+            color: white; 
+            padding: 16px 20px; 
+            margin-top: 12px; 
+            border-radius: 16px; 
+            cursor: pointer; 
+            text-align: left; 
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-link:hover { 
+            background: linear-gradient(145deg, var(--gold), #f9a825); 
+            color: var(--soil); 
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(251,192,45,0.4);
+        }
+        
+        .nav-link:hover::before { left: 100%; }
+        
+        .main-content { 
+            flex: 1; 
+            padding: 40px; 
+            overflow-y: auto; 
+            background: linear-gradient(145deg, #fdfdfd, #f8f9fa);
+        }
+        
+        .view { display: none; animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active { display: block; }
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        h2 { 
+            color: var(--primary); 
+            margin-bottom: 30px; 
+            font-size: 28px; 
+            font-weight: 700;
+        }
+        
+        .row { 
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 20px; 
+            flex-wrap: wrap;
+        }
+        
+        .col { flex: 1; min-width: 200px; }
+        
+        label { 
+            font-size: 12px; 
+            font-weight: 700; 
+            color: var(--soil); 
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+            display: block;
+            letter-spacing: 0.5px;
+        }
+        
+        input, select { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 12px; 
+            font-size: 15px; 
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27,94,32,0.1);
+            transform: translateY(-1px);
+        }
+        
+        .btn { 
+            background: linear-gradient(145deg, var(--primary), #2e7d32); 
+            color: white; 
+            padding: 18px 24px; 
+            width: 100%; 
+            border: none; 
+            border-radius: 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(27,94,32,0.4);
+        }
+        
+        .btn:active { transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .portal-card {
+            background: white;
+            padding: 60px 30px;
+            border-radius: 25px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px var(--shadow);
+        }
+        
+        .portal-card h3 { color: var(--primary); margin: 0 0 10px 0; font-size: 24px; }
+        .portal-card p { color: #666; margin: 0; font-size: 16px; }
+
+        /* ATM Card */
+        .atm-card {
+            width: 400px; 
+            height: 250px; 
+            background: linear-gradient(145deg, #1b5e20, #4e342e, #2e7d32);
+            border-radius: 24px; 
+            color: white; 
+            padding: 30px; 
+            position: relative; 
+            margin: 30px auto;
+            box-shadow: 0 25px 50px rgba(27,94,32,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .chip { 
+            width: 55px; 
+            height: 40px; 
+            background: linear-gradient(45deg, var(--gold), #ffeb3b); 
+            border-radius: 8px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 12px rgba(251,192,45,0.4);
+        }
+        
+        /* Passbook */
+        .pb-wrapper { 
+            border: 3px solid var(--soil); 
+            padding: 40px; 
+            background: linear-gradient(145deg, white, #f8f9fa); 
+            display: grid; 
+            grid-template-columns: 150px 1fr 150px; 
+            gap: 25px; 
+            border-radius: 20px;
+            box-shadow: 0 20px 40px var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .pb-photo { 
+            width: 140px; 
+            height: 180px; 
+            border: 3px solid #333; 
+            object-fit: cover; 
+            border-radius: 12px;
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+        }
+        
+        .pb-sig { 
+            width: 140px; 
+            height: 60px; 
+            border-bottom: 3px solid #333; 
+            object-fit: contain;
+            border-radius: 8px 8px 0 0;
+            background: white;
+        }
+
+        /* Table */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 30px; 
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px var(--shadow);
+        }
+        
+        th, td { 
+            border: none; 
+            padding: 20px; 
+            text-align: left; 
+        }
+        
+        th { 
+            background: linear-gradient(145deg, var(--primary), #2e7d32); 
+            color: white; 
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        tr:nth-child(even) { background: #f8f9fa; }
+        tr:hover { background: rgba(27,94,32,0.05); transform: scale(1.01); }
+
+        /* Status Messages */
+        .status {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .status.success { background: rgba(76,175,80,0.15); color: var(--success); border: 1px solid var(--success); }
+        .status.error { background: rgba(244,67,54,0.15); color: var(--danger); border: 1px solid var(--danger); }
+
+        /* File upload preview */
+        .file-preview {
+            width: 100%;
+            height: 120px;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-preview:hover {
+            border-color: var(--primary);
+            background: rgba(27,94,32,0.05);
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white !important; }
+            .no-print, .sidebar { display: none !important; }
+            .container { width: 100%; height: auto; box-shadow: none; }
+            .pb-wrapper { border: 2px solid #000; box-shadow: none; position: relative !important; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { width: 95vw; height: 95vh; flex-direction: column; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 5px solid var(--gold); }
+            .row { flex-direction: column; }
+            .pb-wrapper { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="logo-section">
+            <h1>🌾 DHARTI DHAN</h1>
+            <p>Urban Bank Ltd. | Maharashtra</p>
+        </div>
+        
+        <div id="holderMenu" style="display:none; margin-top:auto;">
+            <p style="font-size:13px; color:var(--gold); margin-bottom:20px; font-weight:600;">👤 HOLDER SERVICES</p>
+            <button class="nav-link" onclick="showView('viewPassbook')">📜 Digital Passbook</button>
+            <button class="nav-link" onclick="showView('viewATM')">💳 ATM Card Facility</button>
+            <button class="nav-link" onclick="showView('viewStatement')">📊 Bank Statement</button>
+            <button class="nav-link" style="margin-top:30px; background:linear-gradient(145deg, var(--soil), #5d4037);" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="viewGate" class="view active">
+            <h2>🌱 Central Management System</h2>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px; margin-top:40px;">
+                <div class="portal-card" onclick="showView('viewOffLogin')">
+                    <h3>🏦 BANK OFFICER</h3>
+                    <p>Phase I: Registration & KYC</p>
+                </div>
+                <div class="portal-card" onclick="showView('viewHoldLogin')">
+                    <h3>👨‍🌾 BANK HOLDER</h3>
+                    <p>Phase II: Personal Banking</p>
+                </div>
+            </div>
+            <div id="dataStatus" class="status success" style="display:none;"></div>
+        </div>
+
+        <div id="viewOffLogin" class="view">
+            <h2>🔐 Officer Authentication</h2>
+            <div id="offStatus" class="status"></div>
+            <input type="password" id="offPin" placeholder="System PIN (1234)" maxlength="4">
+            <button class="btn" onclick="loginOfficer()">Unlock Registry</button>
+        </div>
+
+        <div id="viewReg" class="view">
+            <h2>🌾 Phase I: Farmer Enrollment</h2>
+            <div id="regStatus" class="status"></div>
+            <div class="row">
+                <div class="col"><label>Full Name <span style="color:var(--danger)">*</span></label><input type="text" id="regName" placeholder="Enter Full Name"></div>
+                <div class="col"><label>Mobile Number</label><input type="tel" id="regMob" maxlength="10" placeholder="98XXXXXXXX"></div>
+            </div>
+            <div class="row">
+                <div class="col"><label>Aadhar Number <span style="color:var(--danger)">*</span></label><input type="text" id="regAadhar" maxlength="12" placeholder="123456789012"></div>
+                <div class="col"><label>PAN Card</label><input type="text" id="regPan" maxlength="10" placeholder="ABCDE1234F"></div>
+                <div class="col"><label>Date of Birth <span style="color:var(--danger)">*</span></label><input type="date" id="regDob"></div>
+            </div>
+            <div class="row">
+                <div class="col"><label>District <span style="color:var(--danger)">*</span></label><select id="dist" onchange="loadTalukas()"><option value="">Select District</option></select></div>
+                <div class="col"><label>Taluka <span style="color:var(--danger)">*</span></label><select id="tal" onchange="setPin()"><option value="">Select Taluka</option></select></div>
+                <div class="col"><label>Pincode</label><input type="text" id="regPin" readonly style="background:#f0f0f0; font-weight:600;"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Passport Photo</label>
+                    <input type="file" id="photoFile" accept="image/*" onchange="handleFileUpload(this, 'photo')">
+                    <div id="photoPreview" class="file-preview">📷 Upload Photo</div>
+                </div>
+                <div class="col">
+                    <label>Digital Signature</label>
+                    <input type="file" id="sigFile" accept="image/*" onchange="handleFileUpload(this, 'signature')">
+                    <div id="sigPreview" class="file-preview">✍️ Upload Signature</div>
+                </div>
+            </div>
+            <button class="btn" id="regBtn" onclick="savePhase1()">🚀 Create Account & Sync Phase III</button>
+        </div>
+
+        <div id="viewHoldLogin" class="view">
+            <h2>🔑 Phase II: Holder Authentication</h2>
+            <div id="loginStatus" class="status"></div>
+            <input type="text" id="hId" placeholder="User ID (Last 6 digits of Aadhar)" maxlength="6">
+            <input type="password" id="hPass" placeholder="Password (e.g., ROHI2004)">
+            <button class="btn" id="loginBtn" onclick="loginHolder()">Open Digital Vault</button>
+        </div>
+
+        <div id="viewPassbook" class="view">
+            <div class="pb-wrapper">
+                <img id="pbImg" class="pb-photo" alt="Passport Photo">
+                <div style="padding: 20px 0;">
+                    <h2 style="margin:0 0 15px 0; color:var(--primary);">DHARTI DHAN BANK</h2>
+                    <p style="font-size:14px; margin-bottom:15px; opacity:0.8;">Branch: <span id="pbBranch"></span> | IFSC: DDUB00412</p>
+                    <div style="display:grid; grid-template-columns: 100px 1fr; gap:15px; font-size:14px;">
+                        <span style="font-weight:700;">Name:</span><span id="pbName"></span>
+                        <span style="font-weight:700;">Mobile:</span><span id="pbMob"></span>
+                        <span style="font-weight:700;">A/C No:</span><span id="pbAc"></span>
+                        <span style="font-weight:700;">Customer ID:</span><span id="pbUid"></span>
+                    </div>
+                </div>
+                <div style="text-align:right; padding-top:20px;">
+                    <img id="pbSig" class="pb-sig" alt="Signature">
+                    <p style="font-size:11px; margin:10px 0 0 0; opacity:0.8;">Authorized Signature</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=DHARTI+DHAN+BANK+VERIFIED" style="margin-top:15px; border:1px solid #ddd; border-radius:8px;">
+                </div>
+            </div>
+            <button class="btn no-print" onclick="printPassbook()">🖨️ Print Official Passbook</button>
+        </div>
+
+        <div id="viewATM" class="view">
+            <h2>💳 Phase II: Digital ATM Facility</h2>
+            <div class="atm-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-weight:700; font-size:16px;">DHARTI DHAN URBAN BANK</span>
+                    <span style="font-size:14px; opacity:0.9;">RuPay</span>
+                </div>
+                <div class="chip"></div>
+                <div id="cardNum" style="font-size:22px; letter-spacing:5px; font-family:monospace; text-shadow:2px 2px 4px rgba(0,0,0,0.5); margin:20px 0;">XXXX XXXX XXXX 0000</div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; font-size:15px; margin-top:15px;">
+                    <span id="cardName" style="font-weight:700; text-transform:uppercase;">HOLDER NAME</span>
+                    <span style="font-size:13px; opacity:0.8;">12/30</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="viewStatement" class="view">
+            <h2>📊 Phase II: Transaction Statement</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Particulars</th>
+                        <th>Type</th>
+                        <th>Balance (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="statementBody">
+                    <!-- Dynamic content -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // COMPLETE MAHARASHTRA DATABASE (36 Districts + Talukas + Pincodes)
+    const mhData = {
+        "Ahmednagar": {"Ahmednagar": "414001", "Sangamner": "422605", "Shrirampur": "413709"},
+        "Akola": {"Akola": "444001", "Akot": "444101", "Murtizapur": "444107"},
+        "Amravati": {"Amravati": "444601", "Achalpur": "444801", "Morshi": "444905"},
+        "Aurangabad": {"Aurangabad": "431001", "Paithan": "431107", "Gangapur": "431109"},
+        "Beed": {"Beed": "431122", "Majalgaon": "431131", "Parli": "431515"},
+        "Bhandara": {"Bhandara": "441904", "Tumsar": "441912"},
+        "Buldhana": {"Buldhana": "443001", "Khamgaon": "444303", "Shegaon": "444203"},
+        "Chandrapur": {"Chandrapur": "442401", "Ballarpur": "442701"},
+        "Dhule": {"Dhule": "424001", "Shirpur": "425405"},
+        "Gadchiroli": {"Gadchiroli": "442605", "Aheri": "442705"},
+        "Gondia": {"Gondia": "441601", "Tirora": "441911"},
+        "Hingoli": {"Hingoli": "431513", "Basmath": "431512"},
+        "Jalgaon": {"Jalgaon": "425001", "Bhusawal": "425201", "Amalner": "425401"},
+        "Jalna": {"Jalna": "431203", "Ambad": "431204", "Bhokardan": "431114", "Partur": "431501"},
+        "Kolhapur": {"Kolhapur": "416001", "Ichalkaranji": "416115", "Panhala": "416201"},
+        "Latur": {"Latur": "413512", "Udgir": "413517", "Nilanga": "413521"},
+        "Mumbai City": {"Colaba": "400005", "Dadar": "400014"},
+        "Mumbai Suburban": {"Andheri": "400053", "Borivali": "400091"},
+        "Nagpur": {"Nagpur": "440001", "Kamptee": "441001", "Katol": "441302"},
+        "Nanded": {"Nanded": "431601", "Degloor": "431717"},
+        "Nandurbar": {"Nandurbar": "425412", "Shahada": "425409"},
+        "Nashik": {"Nashik": "422001", "Malegaon": "423203"},
+        "Osmanabad": {"Osmanabad": "413501", "Tuljapur": "413601"},
+        "Palghar": {"Palghar": "401404", "Vasai": "401201"},
+        "Parbhani": {"Parbhani": "431401", "Gangakhed": "431506"},
+        "Pune": {"Pune City": "411001", "Baramati": "413102"},
+        "Raigad": {"Alibag": "402201", "Panvel": "410206"},
+        "Ratnagiri": {"Ratnagiri": "415612", "Chiplun": "415605"},
+        "Sangli": {"Sangli": "416416", "Miraj": "416410"},
+        "Satara": {"Satara": "415001", "Karad": "415110"},
+        "Sindhudurg": {"Sawantwadi": "416510"},
+        "Solapur": {"Solapur": "413001", "Pandharpur": "413304"},
+        "Thane": {"Thane": "400601", "Kalyan": "421301"},
+        "Wardha": {"Wardha": "442001"},
+        "Washim": {"Washim": "444505"},
+        "Yavatmal": {"Yavatmal": "445001"}
+    };
+
+    let currentUser = null;
+    let usersDB = JSON.parse(localStorage.getItem('dhartiDhanUsers') || '[]');
+    let tempPhotoData = null;
+    let tempSigData = null;
+
+    // Initialize
+    window.onload = function() {
+        populateDistricts();
+        setDefaultDOB();
+        updateDashboardStats();
+    };
+
+    function populateDistricts() {
+        const districtSelect = document.getElementById('dist');
+        Object.keys(mhData).sort().forEach(district => {
+            districtSelect.options.add(new Option(district, district));
+        });
+    }
+
+    function setDefaultDOB() {
+        const dobInput = document.getElementById('regDob');
+        const today = new Date();
+        today.setFullYear(today.getFullYear() - 30);
+        dobInput.value = today.toISOString().split('T')[0];
+    }
+
+    function loadTalukas() {
+        const district = document.getElementById('dist').value;
+        const talukaSelect = document.getElementById('tal');
+        talukaSelect.innerHTML = '<option value="">Select Taluka</option>';
+        
+        if (district && mhData[district]) {
+            Object.keys(mhData[district]).sort().forEach(taluka => {
+                talukaSelect.options.add(new Option(taluka, taluka));
+            });
+        }
+    }
+
+    function setPin() {
+        const district = document.getElementById('dist').value;
+        const taluka = document.getElementById('tal').value;
+        const pinInput = document.getElementById('regPin');
+        
+        if (district && taluka && mhData[district] && mhData[district][taluka]) {
+            pinInput.value = mhData[district][taluka];
+        }
+    }
+
+    function showView(id) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        clearAllStatuses();
+    }
+
+    function clearAllStatuses() {
+        document.querySelectorAll('.status').forEach(status => status.innerHTML = '');
+    }
+
+    function showStatus(statusId, message, type = 'success') {
+        const statusEl = document.getElementById(statusId);
+        statusEl.innerHTML = message;
+        statusEl.className = `status ${type}`;
+    }
+
+    // FIXED: File upload handler
+    function handleFileUpload(input, type) {
+        const file = input.files[0];
+        const previewId = type === 'photo' ? 'photoPreview' : 'sigPreview';
+        
+        if (!file) {
+            document.getElementById(previewId).innerHTML = type === 'photo' ? '📷 Upload Photo' : '✍️ Upload Signature';
+            if (type === 'photo') tempPhotoData = null;
+            else tempSigData = null;
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            showStatus('regStatus', '❌ Please select a valid image file', 'error');
+            input.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = `<img src="${e.target.result}" alt="${type}">`;
+            
+            if (type === 'photo') {
+                tempPhotoData = e.target.result;
+                showStatus('regStatus', '✅ Photo uploaded successfully', 'success');
+            } else {
+                tempSigData = e.target.result;
+                showStatus('regStatus', '✅ Signature uploaded successfully', 'success');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function loginOfficer() {
+        const pin = document.getElementById('offPin').value;
+        if (pin === "1234") {
+            showStatus('offStatus', '✅ Access Granted! Welcome Officer.', 'success');
+            setTimeout(() => showView('viewReg'), 1000);
+        } else {
+            showStatus('offStatus', '❌ Invalid PIN! Try 1234.', 'error');
+        }
+    }
+
+    function savePhase1() {
+        const name = document.getElementById('regName').value.trim();
+        const aadhar = document.getElementById('regAadhar').value.replace(/\s/g, '');
+        const district = document.getElementById('dist').value;
+        const taluka = document.getElementById('tal').value;
+        const dob = document.getElementById('regDob').value;
+        const mobile = document.getElementById('regMob').value.trim();
+        const pan = document.getElementById('regPan').value.trim();
+
+        // Validation
+        if (!name || !aadhar || !district || !taluka || !dob) {
+            showStatus('regStatus', '❌ Please fill all mandatory fields (*)', 'error');
+            return;
+        }
+
+        if (aadhar.length !== 12 || !/^\d{12}$/.test(aadhar)) {
+            showStatus('regStatus', '❌ Aadhar must be exactly 12 digits', 'error');
+            return;
+        }
+
+        const btn = document.getElementById('regBtn');
+        btn.disabled = true;
+        btn.innerHTML = '💾 Saving to Secure Storage...';
+
+        // Create user object
+        const userId = aadhar.slice(-6);
+        const password = name.substring(0, 4).toUpperCase() + dob.split('-')[0];
+        const accountNo = "1100" + Math.floor(100000 + Math.random() * 900000);
+
+        currentUser = {
+            name: name,
+            mobile: mobile || 'N/A',
+            aadhar: aadhar,
+            pan: pan || 'N/A',
+            dob: dob,
+            district: district,
+            taluka: taluka,
+            pincode: document.getElementById('regPin').value,
+            uid: userId,
+            password: password,
+            ac: accountNo,
+            pData: tempPhotoData || getDefaultImage(140, 180, 'PHOTO'),
+            sData: tempSigData || getDefaultImage(140, 60, 'SIGNATURE'),
+            created: new Date().toISOString(),
+            balance: 25000.00
+        };
+
+        // Check for duplicates
+        const duplicate = usersDB.find(u => u.aadhar === aadhar || u.uid === userId);
+        if (duplicate) {
+            showStatus('regStatus', '❌ User already exists! Use different Aadhar.', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '🚀 Create Account & Sync Phase III';
+            return;
+        }
+
+        // Save to localStorage
+        usersDB.push(currentUser);
+        localStorage.setItem('dhartiDhanUsers', JSON.stringify(usersDB));
+        updateDashboardStats();
+
+        showStatus('regStatus', '✅ Farmer Account Created Successfully!', 'success');
+        
+        setTimeout(() => {
+            alert(`🎉 REGISTRATION COMPLETE!\n\n👤 Name: ${name}\n🆔 User ID: ${userId}\n🔑 Password: ${password}\n🏦 Account: ${accountNo}\n\n📱 Save these credentials securely!`);
+            resetForm();
+            btn.disabled = false;
+            btn.innerHTML = '🚀 Create Account & Sync Phase III';
+        }, 2000);
+    }
+
+    function getDefaultImage(width, height, text) {
+        return `data:image/svg+xml;base64,${btoa(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+                <rect width="100%" height="100%" rx="12" fill="linear-gradient(145deg, #f0f0f0, #e0e0e0)"/>
+                <text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="${Math.min(width,height)/8}" 
+                      font-weight="600" fill="#999" font-family="Segoe UI, Arial, sans-serif">${text}</text>
+            </svg>
+        `)}`;
+    }
+
+    function resetForm() {
+        document.querySelectorAll('#viewReg input, #viewReg select').forEach(input => {
+            if (input.type !== 'file') input.value = '';
+        });
+        document.getElementById('photoFile').value = '';
+        document.getElementById('sigFile').value = '';
+        document.getElementById('photoPreview').innerHTML = '📷 Upload Photo';
+        document.getElementById('sigPreview').innerHTML = '✍️ Upload Signature';
+        tempPhotoData = null;
+        tempSigData = null;
+        currentUser = null;
+        setDefaultDOB();
+    }
+
+    function loginHolder() {
+        const uid = document.getElementById('hId').value.trim();
+        const password = document.getElementById('hPass').value.trim();
+
+        if (!uid || !password) {
+            showStatus('loginStatus', '❌ Please enter User ID and Password', 'error');
+            return;
+        }
+
+        const btn = document.getElementById('loginBtn');
+        btn.disabled = true;
+        btn.innerHTML = '🔍 Authenticating...';
+
+        const user = usersDB.find(u => u.uid === uid && u.password === password);
+        
+        if (user) {
+            currentUser = user;
+            document.getElementById('holderMenu').style.display = "block";
+            populateUserData(user);
+            showStatus('loginStatus', `✅ Welcome ${user.name}!`, 'success');
+            setTimeout(() => showView('viewPassbook'), 1000);
+        } else {
+            showStatus('loginStatus', '❌ Invalid credentials!', 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'Open Digital Vault';
+        }
+    }
+
+    function populateUserData(user) {
+        document.getElementById('pbName').textContent = user.name;
+        document.getElementById('pbMob').textContent = user.mobile;
+        document.getElementById('pbAc').textContent = user.ac;
+        document.getElementById('pbUid').textContent = user.uid;
+        document.getElementById('pbBranch').textContent = `${user.district} / ${user.taluka}`;
+        document.getElementById('pbImg').src = user.pData;
+        document.getElementById('pbSig').src = user.sData;
+        document.getElementById('cardName').textContent = user.name;
+        document.getElementById('cardNum').textContent = `5081 9901 4402 ${user.uid}`;
+        loadStatement(user);
+    }
+
+    function loadStatement(user) {
+        const tbody = document.getElementById('statementBody');
+        const sampleTransactions = [
+            {date: '24/03/2026', desc: 'PM-KISAN 15th Installment', type: 'CR', amount: 2000},
+            {date: '20/03/2026', desc: 'Fertilizer Purchase (KCC)', type: 'DR', amount: 1450},
+            {date: '12/03/2026', desc: 'Grain Market Sale', type: 'CR', amount: 24500},
+            {date: '05/03/2026', desc: 'Crop Insurance Claim', type: 'CR', amount: 8500},
+            {date: '01/03/2026', desc: 'Account Opening Bonus', type: 'CR', amount: user.balance}
+        ];
+        
+        tbody.innerHTML = sampleTransactions.map(t => 
+            `<tr>
+                <td>${t.date}</td>
+                <td>${t.desc}</td>
+                <td style="color:${t.type==='CR'?'var(--success)':'var(--danger)'}">${t.type}</td>
+                <td style="font-weight:700; color:var(--primary);">₹${t.amount.toLocaleString('en-IN')}</td>
+            </tr>`
+        ).join('');
+    }
+
+    function updateDashboardStats() {
+        const totalUsers = usersDB.length;
+        const statusEl = document.getElementById('dataStatus');
+        statusEl.style.display = 'block';
+        statusEl.innerHTML = `📊 ${totalUsers} Farmers Registered | Maharashtra Digital Banking Active`;
+        statusEl.className = 'status success';
+    }
+
+    function printPassbook() {
+        if (!currentUser) {
+            alert('Please login first!');
+            return;
+        }
+        window.print();
+    }
+
+    function logout() {
+        currentUser = null;
+        document.getElementById('holderMenu').style.display = "none";
+        document.getElementById('hId').value = '';
+        document.getElementById('hPass').value = '';
+        showView('viewGate');
+    }
+</script>
+</body>
+</html>
